@@ -87,11 +87,13 @@ class EmpleadoController extends Controller
             $empleado->descripcion = $request->descripcion;
             $empleado->save();
             $user = DB::table('empleados')->orderBy('id','desc')->first();
-            foreach($request->role as $role){
-                $rolEmpleado = new EmpleadoRol;
-                $rolEmpleado->empleado_id = $user->id;
-                $rolEmpleado->rol_id = $role;
-                $rolEmpleado->save();    
+            if(count($request->role)>0){
+                foreach($request->role as $role){
+                    $rolEmpleado = new EmpleadoRol;
+                    $rolEmpleado->empleado_id = $empleado->id;
+                    $rolEmpleado->rol_id = $role;
+                    $rolEmpleado->save();    
+                }
             }
         
             Session::flash('message','Usuario creado éxitosamente');
@@ -156,15 +158,17 @@ class EmpleadoController extends Controller
             $empleado->area_id = $request->area;
             $empleado->boletin = $boletin;
             $empleado->descripcion = $request->descripcion;
-            $empleado->save();
-
-            $empleadoRols = EmpleadoRol::where('empleado_id','=',$empleado->id)->delete();
-            foreach($request->role as $role){
-                $rolEmpleado = new EmpleadoRol;
-                $rolEmpleado->empleado_id = $empleado->id;
-                $rolEmpleado->rol_id = $role;
-                $rolEmpleado->save();    
+            $empleado->save();          
+            if(count($request->role)>0){
+                $empleadoRols = EmpleadoRol::where('empleado_id','=',$empleado->id)->delete();
+                foreach($request->role as $role){
+                    $rolEmpleado = new EmpleadoRol;
+                    $rolEmpleado->empleado_id = $empleado->id;
+                    $rolEmpleado->rol_id = $role;
+                    $rolEmpleado->save();    
+                }
             }
+            
 
             Session::flash('message','Usuario actualizado éxitosamente');
             return Redirect::to('/empleado');
@@ -188,7 +192,6 @@ class EmpleadoController extends Controller
             Session::flash('message','Usuario eliminado éxitosamente');
             return Redirect::to('/empleado');
         }catch(\Exception $e){
-            Session::flash('message','No se pudo conectar a base de datos');
             return Redirect::to('/empleado');
          }
     }
