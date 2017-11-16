@@ -12,18 +12,16 @@
     <div class="headerNavigation buttonNew">
         <div class="col-md-10"></div>
         <div class="col-md-2">
-            <a type="button" class="btn btn-primary" href="empleado/create">
+            <a  class="btn btn-primary" href="empleado/create">
                 <i class="fa fa-user-plus" aria-hidden="true"></i> &nbsp; Crear
             </a>
         </div>
     </div> 
     <br>
     <br>
-    <br>
-   <div class="container">
-  
+    <br>  
   <div class="container">
-  <table id="table" class="table table-striped " cellspacing="0" width="100%">
+  <table id="table" class="table table-striped ">
     <thead>
       <tr>
         <th><i class="fa fa-user fa-fw" aria-hidden="true"></i> &nbsp; Nombre</th>
@@ -52,11 +50,11 @@
                  {!!Form::close()!!}
                 
                 </td>
-            <tr>
+            </tr>
         </tbody>
     @endforeach
   </table>
+  </div>
   {!!$empleados->render()!!}
-</div>
   
 @endsection
