@@ -130,7 +130,17 @@ class EmpleadoController extends Controller
             $empleado = Empleado::find($id);
             $areas = DB::table('areas')->get();
             $rols = DB::table('rols')->get();
-            return view('empleado.update',['rols'=>$rols,'areas'=>$areas],['empleado'=>$empleado]);
+            $empleadoRols = DB::table('empleado_rols')->where('empleado_id',''+$id)->get();
+            foreach($rols as $rol){
+                $rol->check = '';
+                foreach($empleadoRols as $empleadoRol){
+                    if($rol->id == $empleadoRol->rol_id){
+                        $rol->check = 'checked';
+                    }
+                }
+                
+            }
+            return view('empleado.update',['rols'=>$rols,'areas'=>$areas],['empleado'=>$empleado,'empleadoRols'=>$empleadoRols]);
         }catch(\Exception $e){
             Session::flash('message','No se pudo conectar a base de datos');
             return Redirect::to('/empleado');

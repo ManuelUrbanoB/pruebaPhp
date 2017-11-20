@@ -9,7 +9,7 @@
         </div>
             <br>
             {!!Form::open(['route'=>['empleado.update',$empleado->id],'method'=>'PUT','class'=>'form-horizontal','id'=>'form-empleado'])!!}
-                @include('empleado.form')
+                @include('empleado.formUpdate')
             {!!Form::close()!!}
         </div>
     </div>
